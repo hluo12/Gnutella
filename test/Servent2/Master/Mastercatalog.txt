@@ -1,0 +1,2 @@
+c.txt$1
+Lecture02.pdf$2

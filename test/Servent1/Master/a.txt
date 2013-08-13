@@ -1,0 +1,113 @@
+    sas
+Advanced Operating Systems 
+Assignment 02
+
+
+10/8/2012
+Navaneetha Krishnan.T
+R10493147
+
+ 
+Question 01: In the text, we described a multithreaded file server, showing why it is better than a single-threaded server and a finite-state machine server. Are there any circumstances in which a single-threaded server might be better? Give an example.
+
+The single threaded server acts as better one if the server is wholly CPU bounded. This is because there is no need of creating additional threads. The addition of threads for CPU bounded server makes it as complex rather than makes it faster. For example, suppose if we consider a patient record system which constitutes around a 10 million records with each of 32 characters length, the entire database takes 320 Megabytes & can be placed in server’s local memory for faster access.
+
+Question 02: Strong mobility in UNIX systems could be supported by allowing a process to fork a child on a remote machine. Explain how this would work.
+
+Fork function creates a child thread which does the same functions of the parent. In similar to it, the remote cloning can be done. But to do it, the target operating system should allocate memory, reserve resources & produce an appropriate process for the new child process. Once it is completed, the whole process/function of the parent can be copied & child can be initiated / activated. 
+
+Question 03: Assume a client calls an asynchronous RPC to a server, and subsequently waits until the server returns a result using another asynchronous RPC. Is this approach the same as letting the client execute a normal RPC? What if we replace the asynchronous RPCs with asynchronous RPCs?
+
+Both are not the same. An asynchronous RPC sends back an ACK message to the caller. So server also sends an acknowledgement message to the client whenever it receives an asynchronous RPC which will make an extra message transport than the normal RPC. So a normal RPC can’t be replaced in the place of asynchronous RPC.
+
+Question 04: Explain the difference between the primitives’ mpi_bsend and mpi_isend in MPI.
+
+In mpi_bsend primitive, the caller sends a message for transmission, which is actually stored to local buffer in MPI runtime system. After the message is fully stored, the sender continues its processes. Now local MPI runtime system takes the responsibility to send the message from buffer to receiver. 
+
+But in mpi_isend primitive, the location reference only is shared by sender, with receiver. The location reference will be passed through local MPI runtime system. The sender is responsible for delivery of the message.
+
+Question 05: Suppose that you could make use of only transient asynchronous communication primitives, including only an asynchronous receive primitive. How would you implement primitives for transient synchronous communication?
+
+In asynchronous communication, the sender will send a message & continue its processes without expecting any acknowledgement. To implement synchronous transient communication (through asynchronous primitive), after sending a message, the sender can repeatedly querying the server for acknowledgement or reply message. Once it retrieves the information from server, it can continue the other processes. 	
+
+Question 06: With persistent communication, a receiver generally has its own local buffer where messages can be stored when the receiver is not executing. To create such a buffer, we may need to specify its size. Give an argument why this is preferable, as well as one against specification of the size.
+
+User mentioned buffer is easy to allocate buffer of required size. This makes buffer management work simpler. If the size of the buffer is given as per the message size, it would be very helpful. Otherwise there could be a chance of buffer overflow. To avoid, the receiving system can provide default size for the buffer, which could shrink or grow as the per the message size. 
+
+Though later method reduces the chances of message loss, it makes the system to work more. 
+
+Question 07: Outline an efficient implementation of globally unique identifiers.
+
+The global unique identifiers can be formed in the following method. We can first take network address of the system. Then we can unite local time till microseconds with the obtained network address. This itself will provide a unique identifier but there could be chance of two machines generated its identifier at the exact microsecond. So each machine can generate a random number & append with it. The chance of getting same random number in exact microsecond is very negligible.
+
+Question 08: Consider the Chord system as shown in Fig. 5-4 and assume that node 7 has just joined the network. What would its finger table be and would there be any changes to other finger tables?
+
+Consider the node 7 is added to the Chord system. The finger table utilizes the below formula.
+
+FTp[i] = Succ(P+2i-1)
+
+The finger table construction for node 7: 
+FT7[1] = Succ(7+21-1) = 7+1= 8 => 9
+FT7[2] = Succ(7+22-1) = 7+2 = 9
+FT7[3] = Succ(7+23-1) = 7+4 = 11
+FT7[4] = Succ(7+24-1) = 7+8 = 15 => 18
+FT7[5] = Succ(7+25-1) = 7+16 = 23 => 28
+
+The finger table of node 7 is
+
+1	9
+2	9
+3	11
+4	18
+5	28
+
+The introduction of node 7 surely affects the finger tables of the other nodes. Their entries would have changed as below. 
+
+Node 1:
+
+1	4
+2	4
+3	7
+4	9
+5	28
+Node 4: 
+
+1	7
+2	7
+3	9
+4	14
+5	20
+Node 21:
+1	28
+2	28
+3	28
+4	1
+5	7
+
+Question 09: In a hierarchical location service with a depth of k, how many location records need to be updated at most when a mobile entity changes its location?
+
+The hierarchical location service uses the binary tree like structure for its distribution. So the location (or node) at depth ‘K’ will have n+1 nodes in its traversal including root. So if a mobile entity changes, it has to update n+1nodes. In terms of records, 2K+1 records need to be changed. This is because an update means combination of an insert & a delete.
+
+
+
+Question 10: High-level name servers in DNS, that is, name servers implementing nodes in the DNS name space that are close to the root, generally do not support recursive name resolution. Can we expect much performance improvement if they did?
+
+I don’t think that high level name servers performance will improved if recursive name resolution. This in turn will degrade its performance. There could be a chance of getting input before it finishes the previous request which undergoes recursive resolution. At the same time, the caching efficiency will be affected badly. The high level servers should function faster & at the same work load should not be more. So recursive name resolution works better for lower level servers but not for high level name servers.
+
+Question 11: Consider the behavior of two machines in a distributed system. Both have clocks that are supposed to tick 1000 times per millisecond. One of them actually does, but the other ticks only 990 times per millisecond. If UTC updates come in once a minute, what is the maximum clock skew that will occur?
+
+If we consider for a second, the clock 1 will do 1000 x 103 ticks per second & clock 2 will 990 x 103 ticks per second. So the second clock is having a lag 10 millisecond for a second. Therefore there will be a lag of 600 millisec per minute. The UTC update should update the clock 1 to reduce by 600 millisec after every minute.
+
+Question 12: Add a new message to Fig. 6-9 that is concurrent with message m1, that is, it neither happen before m1 nor happens after m1.
+
+Let us take new message as ‘M’. The message ‘M’ is concurrent to m1 means that it must be the message travel from P2 to P3 or P3 to P2 at the same time of m1. This because the message ‘M’ could not be involved in P1 otherwise it would not have been concurrent to m1.
+
+‘M’ should be reached or departed before 16 in P2, else it will be ordered as per m1. Hence M can be a message departs from P3 at 0 & arrives to P2 before 16 that mean 8 or departs from P2 at 0 & arrives to P3 at 10.
+ 
+Question 13: Consider Fig. 6-14. Suppose that the coordinator crashes. Does this always bring the system down? If not, under what circumstances does this happen?
+
+The system won’t come down if the coordinator crash when there are no processes are accessing resources and no processes are queued.  This type of crash is not at all fatal. The coordinator crash will come to know only after the process request for next transmission. This is because the process request will be replied about this crash failure to the node. So that node will initiate an election for new coordinator.
+
+Question 14: In Fig. 6-21 we have two ELECTION messages circulating simultaneously. While it does no harm to have two of them, it would be more elegant if one could be killed off. Devise an algorithm for doing this without affecting the operation of the basic election algorithm.
+
+After receiving ELECTION message, the node will check whether it is the originator of that election message. If it is, it will check who is having higher process number & propagates the COORDINATOR to all the nodes. For the case given, we can devise algorithm in such a way that originator node can send election message along with timestamp. If any node receive an election message which has timestamp lesser than previous one, it can drop it out.

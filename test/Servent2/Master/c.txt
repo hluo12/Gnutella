@@ -1,0 +1,54 @@
+
+Project Assignment02 -GNUTELLA Implementation-Test Results
+Version1.0
+
+
+10/23/2012
+Advanced Operating System
+Navaneetha Krishnan.T
+
+ 
+
+3 different testing were done for this project.
+1.	Unit testing
+2.	Start Topology with 8 nodes.
+3.	Mesh Topology with 9 nodes.
+Unit Testing
+
+For unit testing, following test scenarios were checked.
+1.	Requesting file which is not available in the local directory of the system but with anyone of the peers.
+2.	Searching a file which is not exists in whole network
+3.	Requesting a file which exists in its Local directory.
+Please find screen shots of user interface & few server displays.
+User Interface:
+	 
+
+
+Servent1:
+ 
+This screen shot depicts that message has been received from the requester & forwarded to all its neighbors. You can see in the above screenshot, if the request comes with same message id, then it will not process anything.
+Servent2:
+ 
+The hitquery message reaches the destination server. The message is getting forwarded to the requestor console.
+If you see in the above screenshots, hitquery message is originated from 2 different servers. But the destination will process only first received request. Also the peers in the path of hitquery will not forward same hitmessage more than once.
+Servent3:
+ 
+After receiving hitmessage, the file server directly connected & retrieved the file.
+PERFORMANCE EVALUATION
+ For a network of 3 nodes, the Average elapsed time for 100 KB file is 160ms.
+STAR TOPOLOGY
+
+I have setup 8 nodes for this setup one as central node & all other node as branch nodes for it.
+Please find the results (in text files) & configuration files used to test this scenario.
+ Results:
+ 
+PERFORMANCE EVALUATION
+Average Elapsed time for 100 KB files is 700ms.  (Time varies as per size of the file & distance travelled).
+MESH TOPOLOGY
+
+9 nodes are used to check this scenario. Their results are also captured & configuration files too listed below.
+Results:
+ 
+PERFROMANCE EVALUATION
+Average Elapsed time for 100 KB files is 800ms.  (Time varies as per size of the file & distance travelled).
+

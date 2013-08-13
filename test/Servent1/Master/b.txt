@@ -1,0 +1,6 @@
+CS5332 Advanced Opera1ng Systems Design
+Lecture 1
+Instructor: Yong Chen, Ph.D.
+Assistant Professor
+Department of Computer Science
+Texas Tech University
